@@ -41,17 +41,16 @@ edge_ai_project/
 ## ⚙️ Installation & Setup
 
 ### 1️⃣ Create Project Folder
-```bash
+
 cd Desktop
 mkdir edge_ai_project
 cd edge_ai_project
-
 ---
 
 ## ⚙️ Installation & Setup
 
 ### 1️⃣ Create Project Folder
-```bash
+
 cd Desktop
 mkdir edge_ai_project
 cd edge_ai_project
