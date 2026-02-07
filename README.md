@@ -4,7 +4,7 @@ Just create a file named **`README.md`** in your project folder and paste **ever
 
 ---
 
-```markdown
+
 # 🧠 ON-DEVICE EDGE AI: Laptop Webcam Face Detection
 
 ## 📌 Project Overview
