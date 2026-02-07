@@ -1,225 +1,192 @@
-# 🧠 ON-DEVICE EDGE AI: Laptop Webcam Face Detection
+# 🧠 EDGE AI PROJECT – Real-Time Face, Age & Gender Detection
 
-## 📌 Project Overview
-This project demonstrates a **real-time, on-device Edge AI application** that performs **face detection using a laptop webcam**.  
-The entire system runs **locally on the device (edge)** without using cloud services, highlighting the core benefits of **Edge AI** such as low latency, privacy, and offline operation.
+## 📌 Project Description
 
-A **Haar Cascade Classifier** from OpenCV is used for lightweight and efficient face detection, making it suitable for edge devices like laptops and embedded systems.
+This project implements a **complete On-Device Edge AI system** that performs **real-time face detection, age prediction, and gender classification** using a laptop webcam.
+All inference is executed **locally on the edge device**, without relying on cloud services, ensuring **low latency, privacy, and offline functionality**.
+
+The system uses **OpenCV DNN models (Caffe-based)** for accurate face detection and age/gender estimation, making it suitable for **Edge AI, Computer Vision, and IoT demonstrations**.
 
 ---
 
 ## 🎯 Key Features
-- 📷 Real-time face detection using laptop webcam  
-- 🧠 Fully on-device Edge AI processing  
-- ⚡ Lightweight classical computer vision model  
-- 🟩 Bounding boxes around detected faces  
-- 💾 Option to save detected frames  
-- 🔗 Optional FastAPI backend integration  
-- 🖥️ Cross-platform support (Windows, macOS, Linux)
+
+* 📷 Real-time webcam-based face detection
+* 🧑 Age estimation of detected faces
+* 🚻 Gender classification (Male / Female)
+* 🧠 Fully on-device Edge AI (no cloud dependency)
+* ⚡ DNN-based models for better accuracy
+* 🧩 Modular project structure
+* 🔌 Extensible for federated learning & client-server use
 
 ---
 
 ## 🛠️ Technologies Used
-- **Python 3.8+**
-- **OpenCV (cv2)**
-- **Haar Cascade Classifier**
-- **FastAPI** (optional)
-- **curl** (optional)
+
+* **Python 3.8+**
+* **OpenCV (cv2 + DNN module)**
+* **Caffe Pre-trained Models**
+* **NumPy**
+* **FastAPI / Client scripts (optional)**
+* **Federated learning concepts (experimental)**
 
 ---
 
 ## 📂 Project Structure
+
 ```
-
-edge_ai_project/
+EDGE_AI_PROJECT/
 │
-├── edge_ai_webcam.py        # Main face detection script
-├── captured.jpg             # Saved frame (generated at runtime)
-├── fastapi_receiver.py      # Optional FastAPI backend
-├── README.md                # Project documentation
-└── venv/                    # Virtual environment (optional)
-
-````
+├── __pycache__/
+├── logs/
+├── models/
+│   ├── age_deploy.prototxt
+│   ├── age_net.caffemodel
+│   ├── deploy.prototxt
+│   ├── gender_deploy.prototxt
+│   ├── gender_net.caffemodel
+│   └── res10_300x300_ssd_iter_140000.caffemodel
+│
+├── age_gender.py          # Age & gender prediction logic
+├── camera.py              # Webcam handling
+├── client.py              # Client-side communication
+├── config.py              # Configuration parameters
+├── edge_ai_webcam.py      # Basic edge AI webcam demo
+├── face_detector.py       # DNN-based face detection
+├── federated.py           # Federated learning logic (experimental)
+├── utils.py               # Helper functions
+├── main.py                # Main application entry point
+│
+├── venv/                  # Python virtual environment
+│
+└── .gitignore
+```
 
 ---
 
 ## ⚙️ Installation & Setup
 
-### 1️⃣ Create Project Folder
-```bash
-cd Desktop
-mkdir edge_ai_project
-cd edge_ai_project
-````
-
----
-
-### 2️⃣ (Optional) Create & Activate Virtual Environment
+### Step 1: Create & Activate Virtual Environment
 
 **Windows**
 
-```powershell
+```
 python -m venv venv
 .\venv\Scripts\activate
 ```
 
 **macOS / Linux**
 
-```bash
+```
 python3 -m venv venv
 source venv/bin/activate
 ```
 
 ---
 
-### 3️⃣ Install Required Libraries
+### Step 2: Install Required Libraries
 
-```bash
+```
 pip install numpy==1.26.4 --only-binary=:all:
 pip install opencv-python --only-binary=:all:
 ```
 
----
+(Optional, if using networking or APIs)
 
-## 🧾 Python Script (`edge_ai_webcam.py`)
-
-```python
-import cv2
-
-# Load Haar Cascade face detector
-face_cascade = cv2.CascadeClassifier(
-    cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
-)
-
-# Open laptop webcam (edge device)
-cap = cv2.VideoCapture(0)
-
-print("Running ON-DEVICE EDGE AI... Press 'q' to quit, 's' to save frame")
-
-while True:
-    ret, frame = cap.read()
-    if not ret:
-        break
-
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
-    faces = face_cascade.detectMultiScale(gray, 1.1, 4)
-
-    for (x, y, w, h) in faces:
-        cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
-
-    cv2.imshow("ON-DEVICE EDGE AI (Laptop Webcam)", frame)
-
-    key = cv2.waitKey(1) & 0xFF
-    if key == ord('q'):
-        break
-    if key == ord('s'):
-        cv2.imwrite("captured.jpg", frame)
-        print("Frame saved as captured.jpg")
-
-cap.release()
-cv2.destroyAllWindows()
+```
+pip install fastapi uvicorn requests
 ```
 
 ---
 
-## ▶️ Running the Application
+## ▶️ How to Run the Project
 
-```bash
+### Run Full Edge AI Pipeline
+
+```
+python main.py
+```
+
+### Run Basic Webcam Face Detection Only
+
+```
 python edge_ai_webcam.py
 ```
 
-### 🟢 Expected Output
+---
 
-* Webcam turns ON
-* Green rectangles appear around detected faces
-* Press **`s`** to save an image
-* Press **`q`** to quit the application
+## 🖥️ Expected Output
+
+* Webcam activates
+* Faces detected with bounding boxes
+* Age and gender displayed near detected faces
+* Real-time inference on edge device
 
 ---
 
-## 🌐 Optional: FastAPI Backend Integration
+## 🧠 Models Used
 
-### Install FastAPI
+* **Face Detection:**
+  `res10_300x300_ssd_iter_140000.caffemodel`
+* **Age Prediction:**
+  `age_net.caffemodel`
+* **Gender Classification:**
+  `gender_net.caffemodel`
 
-```bash
-pip install fastapi uvicorn python-multipart
-```
-
-### Run Backend Server
-
-```bash
-uvicorn fastapi_receiver:app --reload
-```
-
-### Upload Image Using curl
-
-```powershell
-curl -X POST "http://127.0.0.1:8000/compare" `
-     -H "Content-Type: multipart/form-data" `
-     -F "file=@captured.jpg"
-```
-
-### Swagger UI
-
-```
-http://127.0.0.1:8000/docs
-```
+All models are loaded from the `models/` directory using OpenCV’s DNN module.
 
 ---
 
 ## 🧪 Troubleshooting
 
-### ❌ NumPy / OpenCV installation error
+### NumPy / OpenCV Installation Error
 
-```bash
+```
 pip install numpy==1.26.4 --only-binary=:all:
 pip install opencv-python --only-binary=:all:
 ```
 
-### ❌ Webcam not opening
+### Webcam Not Opening
 
 * Close Zoom / Teams / Browser
 * Check OS camera permissions
-* Try changing camera index:
+* Try changing camera index in `camera.py`:
 
 ```python
 cv2.VideoCapture(1)
 ```
 
-### ❌ Faces not detected properly
+### Poor Detection Accuracy
 
-* Improve lighting
+* Improve lighting conditions
 * Face the camera directly
-* Haar cascades are sensitive to angle and illumination
+* Maintain reasonable distance from webcam
 
 ---
 
 ## 🚀 Future Enhancements
 
-* DNN-based face detector (higher accuracy)
 * Face recognition using embeddings
 * ESP32-CAM integration
+* Model optimization for embedded devices
+* Cloud + Edge hybrid deployment
+* Full federated learning implementation
 * Packaging as executable using PyInstaller
-* Cloud or IoT backend deployment
 
 ---
 
 ## 📚 Learning Outcomes
 
 * Understanding Edge AI concepts
-* Real-time computer vision implementation
+* Real-time computer vision using DNNs
 * On-device AI deployment
-* Webcam interfacing with OpenCV
-* Backend integration using FastAPI
+* Modular AI system design
+* Practical use of OpenCV DNN models
 
 ---
 
 ## 📜 License
 
-This project is intended for **educational and academic use**.
-Free to modify and extend.
+This project is intended for **educational and academic use only**.
+Free to modify and extend for learning and research purposes.
 
----
-
-```
