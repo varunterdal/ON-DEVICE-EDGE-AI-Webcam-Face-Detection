@@ -1,10 +1,3 @@
-Perfect 👍
-Here is the **COPY–PASTE READY `README.md`** file.
-Just create a file named **`README.md`** in your project folder and paste **everything below exactly as it is**.
-
----
-
-
 # 🧠 ON-DEVICE EDGE AI: Laptop Webcam Face Detection
 
 ## 📌 Project Overview
